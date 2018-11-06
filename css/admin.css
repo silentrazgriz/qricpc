@@ -31,3 +31,35 @@ video {
 #app {
     display: flex;
 }
+
+.form-check, .form-check-label {
+    cursor: pointer;
+}
+
+input[type=checkbox] {
+    display: none;
+}
+
+.form-check {
+    padding: 5px 10px;
+    user-select: none;
+    display: inline-block;
+    margin-right: 4px;
+    border-radius: 4px;
+}
+
+table {
+    min-width: 600px !important;
+}
+
+#attendance-list td:last-child {
+    min-width: 200px;
+    text-overflow: ellipsis;
+}
+
+#attendance-list td:not(:last-child),
+#attendance-list th:not(:last-child) {
+    width: 120px;
+    text-align: center;
+    vertical-align: middle;
+}

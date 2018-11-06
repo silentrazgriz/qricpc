@@ -1,0 +1,9 @@
+class Scan {
+    constructor() {
+
+    }
+
+    setListener() {
+
+    }
+}
