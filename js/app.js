@@ -1,5 +1,10 @@
 const page = new Page();
+const api = new Api();
 let scanner;
+let data = {
+    roles: [],
+    events: []
+};
 
 let pageCollection = {
     scan: new Scan(),
@@ -8,7 +13,9 @@ let pageCollection = {
 };
 
 $(function() {
-    load('summary');
+    syncData(() => {
+        load('event');
+    });
 
     $('.nav-link').click(function () {
         let view = $(this).data('view');
@@ -16,7 +23,14 @@ $(function() {
     });
 });
 
+async function syncData(callback) {
+    api.getAllRoles(() => {
+        api.getAllEvents(() => {
+            callback();
+        });
+    });
+}
+
 function load(view) {
-    page.load(view);
-    pageCollection[view].setListener();
+    page.load(view, pageCollection[view]);
 }

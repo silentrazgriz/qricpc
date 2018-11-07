@@ -1,26 +1,28 @@
 class Summary {
     constructor() {
         this.eventContainer = `<label class="form-check bg-danger text-light" id="event-container-{{id}}" for="event-{{id}}"><input class="form-check-input" type="checkbox" value="{{id}}" id="event-{{id}}"/><label class="form-check-label" for="event-{{id}}">{{name}}</label></label>`;
+        this.checkboxElement = $('input[type=checkbox]');
     }
 
     setListener() {
+        let self = this;
         this.renderEventList();
 
-        $('input[type=checkbox]').click((e) => {
+        $('#event-list .form-check-input').click(function (e) {
             let id = $(this).val();
             if ($(this).is(':checked')) {
-                $(`#event-container-${id}`).addClass('bg-success')
-                    .removeClass('bg-danger');
+                $(`#event-container-${id}`).removeClass('bg-danger')
+                    .addClass('bg-success');
             } else {
-                $(`#event-container-${id}`).removeClass('bg-success')
-                    .addClass('bg-danger');
+                $(`#event-container-${id}`).addClass('bg-danger')
+                    .removeClass('bg-success');
             }
-            this.renderAttendances();
+            self.renderAttendances();
         });
     }
     
     renderAttendances() {
-        let events = getActiveEvents();
+        let events = this.getActiveEvents();
         let attendances = [];
         let participants = [];
 
@@ -34,8 +36,8 @@ class Summary {
         });
         attTitle.append(`<th>Participants</th>`);
 
-        attendances = unique(attendances);
-        participants = findParticipants(attendances);
+        attendances = this.unique(attendances);
+        participants = this.findParticipants(attendances);
 
         participants.forEach((participant) => {
             let str = '<tr>';
@@ -67,7 +69,7 @@ class Summary {
                 result.push(participant);
             }
         });
-        return unique(result);
+        return this.unique(result);
     }
 
     unique(arr) {

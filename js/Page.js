@@ -7,7 +7,7 @@ class Page {
         this.app = $('#app');
     }
 
-    load(view) {
+    load(view, page) {
         fetch(`views/${view}.html`)
             .then((response) => {
                 return response.text();
@@ -16,6 +16,8 @@ class Page {
                 $('#app').html(html);
                 $('.nav-item').removeClass('active');
                 $(`#${view}`).addClass('active');
+
+                page.setListener();
             });
     }
 }
