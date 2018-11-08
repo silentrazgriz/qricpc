@@ -24,7 +24,7 @@ class Summary {
             self.removed = [];
             self.keep = [];
             self.summaries = [
-                { label: 'Team', width: 150, values: [] },
+                { label: 'Team', width: 125, values: [] },
                 { label: 'Role', width: 125, values: [] },
                 { label: 'Participant', width: -1, values: [] }
             ];
