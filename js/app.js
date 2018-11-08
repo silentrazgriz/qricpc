@@ -1,9 +1,10 @@
 const page = new Page();
 const api = new Api();
-let scanner;
+let scanner, cur = undefined;
 let data = {
     roles: [],
-    events: []
+    events: [],
+    participants: []
 };
 
 let pageCollection = {
@@ -14,7 +15,7 @@ let pageCollection = {
 
 $(function() {
     syncData(() => {
-        load('event');
+        load('scan');
     });
 
     $('.nav-link').click(function () {
@@ -32,5 +33,9 @@ async function syncData(callback) {
 }
 
 function load(view) {
+    if (cur != undefined) {
+        pageCollection[cur].reset();
+    }
     page.load(view, pageCollection[view]);
+    cur = view;
 }

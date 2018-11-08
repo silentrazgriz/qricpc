@@ -53,14 +53,14 @@ table {
     min-width: 600px !important;
 }
 
-#attendance-list td:last-child {
-    min-width: 200px;
+th {
+    vertical-align: middle !important;
     text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-#attendance-list td:not(:last-child),
-#attendance-list th:not(:last-child) {
-    width: 120px;
-    text-align: center;
-    vertical-align: middle;
+td {
+    vertical-align: middle !important;
+    overflow-wrap: break-word;
 }

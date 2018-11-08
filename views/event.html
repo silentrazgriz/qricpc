@@ -3,6 +3,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Code</th>
                     <th>Event</th>
                     <th>Roles</th>
                     <th width="100">Action</th>
@@ -19,7 +20,11 @@
         <form>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Event name"/>
+                <input type="text" class="form-control" id="name" placeholder="Event name" required/>
+            </div>
+            <div class="form-group">
+                <label for="name">Code</label>
+                <input type="text" class="form-control" id="code" placeholder="Event code" required/>
             </div>
             <div class="form-group">
                 <label>Roles</label>

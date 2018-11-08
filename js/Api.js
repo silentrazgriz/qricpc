@@ -18,16 +18,40 @@ class Api {
         });
     }
 
-    addEvent(name, roleIds, callback) {
+    getAllParticipants(callback) {
+        this.get('participant', (response) => {
+            data.participants = response;
+            callback();
+        });
+    }
+
+    getEvent(id, callback) {
+        this.get('event/' + id, (response) => {
+            callback(response);
+        });
+    }
+
+    addEvent(name, code, roleIds, callback) {
         this.post('event', {
-            name: name
+            name: name,
+            code: code
         }, (response) => {
             this.post('attendance/add', {
                 event_id: response.id,
-                role_ids: JSON.stringify(roleIds)
+                role_ids: roleIds
             }, (response) => {
                 callback();
             });
+        });
+    }
+
+    changeStatus(eventId, code, status, callback) {
+        this.post('attendance/change-status', {
+            event_id: eventId,
+            code: code,
+            status: status
+        }, (response) => {
+            callback(response[0]);
         });
     }
 
