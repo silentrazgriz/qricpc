@@ -1,7 +1,7 @@
 class Api {
     constructor() {
         this.token = 'jS63ISYpCHRXgO2o03DtTIGsFFyEK54Vw5e4fWhjpqngkazZsMGrrOYwtyTH';
-        this.baseUrl = 'http://icpc.mrp130.com/api/';
+        this.baseUrl = 'https://qr-api.ashiwawa.com/api/';
     }
 
     getAllRoles(callback) {
