@@ -15,7 +15,7 @@ let pageCollection = {
 
 $(function() {
     syncData(() => {
-        load('scan');
+        load('summary');
     });
 
     $('.nav-link').click(function () {

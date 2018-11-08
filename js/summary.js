@@ -1,15 +1,14 @@
 class Summary {
     constructor() {
         this.eventContainer = `<label class="form-check bg-danger text-light" id="event-container-{{id}}" for="event-{{id}}"><input class="form-check-input" type="checkbox" value="{{id}}" id="event-{{id}}"/><label class="form-check-label" for="event-{{id}}">{{name}}</label></label>`;
-        this.checkboxElement = $('input[type=checkbox]');
-        this.participants = [];
         this.summaries = [];
+        this.removed = [];
+        this.keep = [];
     }
 
     reset() {}
 
     setListener() {
-        let self = this;
         this.summaries = [];
         this.removed = [];
         this.keep = [];
@@ -20,15 +19,15 @@ class Summary {
     renderAttendances() {
         let self = this;
         let events = this.getActiveEvents();
-        this.getSortedParticipants((result) => {
+        this.getSortedParticipants(function (result) {
             self.removed = [];
             self.keep = [];
             self.summaries = [
-                { label: 'Team', width: 125, values: [] },
+                { label: 'Team', width: 150, values: [] },
                 { label: 'Role', width: 125, values: [] },
                 { label: 'Participant', width: -1, values: [] }
             ];
-            result.forEach((res) => {
+            result.forEach(function (res) {
                 if (res.information.role == 'coach' || res.information.role == 'cocoach') {
                     let role = res.information.role == 'coach' ? 'Coach' : 'Co-Coach';
                     self.summaries[0].values.push({ rowspan: 0, colspan: 2, text: role, c: '' });
@@ -44,25 +43,27 @@ class Summary {
                     self.summaries[2].values.push({ rowspan: 0, colspan: 0, text: res.name, c: '' });
                 }
             });
-            events.forEach((event, i) => {
-                api.getEvent(event.id, (response) => {
+            events.forEach(function (event) {
+                api.getEvent(event.id, function (response) {
                     response = response[0];
                     let attTemp = {
                         label: response.information.code,
-                        width: 125,
+                        width: 100,
                         values: []
                     };
-                    result.forEach((res, index) => {
-                        let found = response.attendances.find((attendance) => {
+                    result.forEach(function (res, index) {
+                        let found = response.attendances.find(function (attendance) {
                             return attendance.participant.id == res.id;
                         });
                         if (found == undefined) {
-                            if (self.keep.indexOf(index) == -1) {
+                            if (self.keep.indexOf(index) == -1 && self.removed.indexOf(index) == -1) {
                                 self.removed.push(index);
                             }
                             attTemp.values.push({ rowspan: 0, colspan: 0, text: '', c: 'bg-danger' });
                         } else {
-                            self.keep.push(index);
+                            if (self.keep.indexOf(index) == -1) {
+                                self.keep.push(index);
+                            }
                             if (self.removed.indexOf(index) != -1) {
                                 self.removed.splice(self.removed.indexOf(index), 1);
                             }
@@ -74,16 +75,18 @@ class Summary {
                                 attTemp.values.push({ rowspan: 0, colspan: 0, text: found.status, c: 'bg-warning' });
                             }
                         }
-                    });
-                    this.summaries.unshift(attTemp);
-                });
-            });
+                    }.bind(self));
+                    self.summaries.unshift(attTemp);
+                }.bind(self));
+            }.bind(self));
             self.waitParticipants(events);
-        });
+        }.bind(self));
     }
 
     waitParticipants(events) {
         if (this.summaries.length == events.length + 3) {
+            console.log(this.removed.length);
+            console.log(this.keep.length);
             for (let i = this.removed.length - 1; i >= 0; i--) {
                 this.summaries.forEach((summary) => {
                     summary.values.splice(this.removed[i], 1);
@@ -106,7 +109,7 @@ class Summary {
             if (this.summaries[j].width == -1) {
                 str += `<th>${this.summaries[j].label}</th>`;
             } else {
-                str += `<th width="${this.summaries[j].width}" style="max-width:${this.summaries[j].width}px">${this.summaries[j].label}</th>`;
+                str += `<th style="width:${this.summaries[j].width}px">${this.summaries[j].label}</th>`;
             }
         }
         attTitle.html(str);

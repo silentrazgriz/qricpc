@@ -13,6 +13,7 @@
 }
 
 video {
+    transform: rotateY(180deg);
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -41,6 +42,7 @@ input[type=checkbox] {
 
 table {
     width: auto !important;
+    table-layout: fixed;
 }
 
 th {
@@ -52,7 +54,10 @@ th {
 
 td {
     vertical-align: middle !important;
-    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow: hidden;
 }
 
 .table-overflow,
