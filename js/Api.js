@@ -1,6 +1,6 @@
 class Api {
     constructor() {
-        this.token = 'jS63ISYpCHRXgO2o03DtTIGsFFyEK54Vw5e4fWhjpqngkazZsMGrrOYwtyTH';
+        this.token = '0pemY2AsQaw6LeeQkUP6V5YP5WrxJqV8CLZDHU2RqI5iDNrujctn3WuLyKB8';
         this.baseUrl = 'https://qr-api.ashiwawa.com/api/';
     }
 
